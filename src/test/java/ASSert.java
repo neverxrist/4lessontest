@@ -32,29 +32,34 @@ public class ASSert {
         //$("a.internal.present[href='/selenide/selenide/wiki/SoftAssertions']").click();
         $(".wiki-more-pages-link button").click();
         $$("[data-filterable-for='wiki-pages-filter'] li").findBy(text("SoftAssertions")).$("a").click();
-        $("#wiki-body").shouldHave(text("@ExtendWith({SoftAssertsExtension.class})\n" +
-                "class Tests {\n" +
-                "  @Test\n" +
-                "  void test() {\n" +
-                "    Configuration.assertionMode = SOFT;\n" +
-                "    open(\"page.html\");\n" +
-                "\n" +
-                "    $(\"#first\").should(visible).click();\n" +
-                "    $(\"#second\").should(visible).click();\n" +
-                "  }\n" +
-                "}")).shouldHave(text("class Tests {\n" +
-                "  @RegisterExtension \n" +
-                "  static SoftAssertsExtension softAsserts = new SoftAssertsExtension();\n" +
-                "\n" +
-                "  @Test\n" +
-                "  void test() {\n" +
-                "    Configuration.assertionMode = SOFT;\n" +
-                "    open(\"page.html\");\n" +
-                "\n" +
-                "    $(\"#first\").should(visible).click();\n" +
-                "    $(\"#second\").should(visible).click();\n" +
-                "  }\n" +
-                "}"));
+        $("#wiki-body")
+                .shouldHave(text("""
+                        @ExtendWith({SoftAssertsExtension.class})
+                        class Tests {
+                          @Test
+                          void test() {
+                            Configuration.assertionMode = SOFT;
+                            open("page.html");
+
+                            $("#first").should(visible).click();
+                            $("#second").should(visible).click();
+                          }
+                        }"""))
+
+                .shouldHave(text("""
+                        class Tests {
+                          @RegisterExtension\s
+                          static SoftAssertsExtension softAsserts = new SoftAssertsExtension();
+
+                          @Test
+                          void test() {
+                            Configuration.assertionMode = SOFT;
+                            open("page.html");
+
+                            $("#first").should(visible).click();
+                            $("#second").should(visible).click();
+                          }
+                        }"""));
 
     }
 
