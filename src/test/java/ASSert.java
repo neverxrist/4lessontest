@@ -11,7 +11,7 @@ public class ASSert {
         Configuration.pageLoadStrategy = "eager";
         Configuration.baseUrl = "https://github.com";
         Configuration.browserSize = "2560x1440";
-        Configuration.holdBrowserOpen = true;
+        Configuration.holdBrowserOpen = false;
 
     }
     @Test
@@ -28,10 +28,34 @@ public class ASSert {
                 selenide
                 """));
         $("#wiki-tab").click();
-        $("#wiki-body").shouldHave(text("Soft Assertions"));
-        $("a.internal.present[href='/selenide/selenide/wiki/SoftAssertions']").click();
-        $("#wiki-body").shouldHave(text("Using JUnit5 extend test class:"));
-        
+        //$("#wiki-body").shouldHave(text("Soft Assertions"));
+        //$("a.internal.present[href='/selenide/selenide/wiki/SoftAssertions']").click();
+        $(".wiki-more-pages-link button").click();
+        $$("[data-filterable-for='wiki-pages-filter'] li").findBy(text("SoftAssertions")).$("a").click();
+        $("#wiki-body").shouldHave(text("@ExtendWith({SoftAssertsExtension.class})\n" +
+                "class Tests {\n" +
+                "  @Test\n" +
+                "  void test() {\n" +
+                "    Configuration.assertionMode = SOFT;\n" +
+                "    open(\"page.html\");\n" +
+                "\n" +
+                "    $(\"#first\").should(visible).click();\n" +
+                "    $(\"#second\").should(visible).click();\n" +
+                "  }\n" +
+                "}")).shouldHave(text("class Tests {\n" +
+                "  @RegisterExtension \n" +
+                "  static SoftAssertsExtension softAsserts = new SoftAssertsExtension();\n" +
+                "\n" +
+                "  @Test\n" +
+                "  void test() {\n" +
+                "    Configuration.assertionMode = SOFT;\n" +
+                "    open(\"page.html\");\n" +
+                "\n" +
+                "    $(\"#first\").should(visible).click();\n" +
+                "    $(\"#second\").should(visible).click();\n" +
+                "  }\n" +
+                "}"));
+
     }
-    
+
 }
