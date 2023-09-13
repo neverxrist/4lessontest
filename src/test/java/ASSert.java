@@ -31,7 +31,7 @@ public class ASSert {
         //$("#wiki-body").shouldHave(text("Soft Assertions"));
         //$("a.internal.present[href='/selenide/selenide/wiki/SoftAssertions']").click();
         $(".wiki-more-pages-link button").click();
-        $$("[data-filterable-for='wiki-pages-filter'] li").findBy(text("SoftAssertions")).$("a").click();
+        $$("[data-filterable-for='wiki-pages-filter'] li").findBy(text("SoftAssertions")).$("span").click();
         $("#wiki-body")
                 .shouldHave(text("""
                         @ExtendWith({SoftAssertsExtension.class})
