@@ -18,7 +18,6 @@ public class ASSert {
     void testHUB() {
         open("");
         $(".search-input").$(("[placeholder='Search or jump to...']")).click();
-        //$("[placeholder='Search or jump to...']").click();
         $("#query-builder-test").setValue("selenide").pressEnter();
         //$("[class='Link__StyledLink-sc-14289xe-0 bJBoUI']").click();
         $$("[data-testid='results-list']").first().$("span").click();
